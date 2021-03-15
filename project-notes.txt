@@ -1,0 +1,63 @@
+Train, val, test split.
+	1. I think there is no need to shuffle the data.
+		- But I might add it if shit hits the fan.
+	
+	2. Only a train and validation set are needed. 
+	   The "test" dataset is in a way what comma.ai would do.
+	   - Choose one video to be the validation set.
+	     It is a good idea if it is the most "unique" video.
+			~ Video 3 seems the most dificult.
+
+	3. Split the data while it is in the pandas dataframe stage.
+
+Why shit ain't working?
+	1. Is it the loss function?
+		- Try another (mae)
+			~ predictions are still the same.
+		- Does it not work properly with two target values?
+			~ Tried only with "pitch", still same predictions.
+	
+	2. The data?
+		- Is it because "pitch", "yaw" are not scalled?
+			~ But those are the targets afterall, if we scale them, 
+		      we will have to rescale them after prediction.
+		- Is it because the imaged where sclaled with 256 instead of 255?
+			~ Still the same.
+		- Too few examples?
+			~ No, tried with all the examples, still the same results.
+	   
+	3. Is the training loop a problem?
+		- Minor improvement, most of the predictions are still the same.
+		
+	4. Kernel initilizers? 
+		-No.
+		
+	5. The model? 
+		-Is the model too shallow or deep? It is very strange as there seems to because
+	     imediate overfitting, even with a shallow NN.
+			~ Too deep?
+			~ Too shallow? - BINGO, the NN was apperantly too shallow.
+			  But why does a shallow NN produce such strange results?
+			  Does it get stuck in a shitty local minimum?
+			  * and it randomly got stuck again after adding
+			    Conv2D layers. WTF?
+		- Are the last layers too narrow?
+			~ Yes, changing the width of the last layers made a considerable
+			  differance.
+		
+	6. Optimizer? 
+		- Apperantly not.
+		
+	7. Learning rate?
+	8. Explding gradients, because og the similarity between frames?
+	9. How much loss is too much?
+	10. Epochs?
+	
+Data enchansemnts.
+	1. Jitter.
+	2. Flip some videos.
+	
+Preds visualisation.
+Transfer learning.
+Show to moving kernels if possible.
+Conv3d.
